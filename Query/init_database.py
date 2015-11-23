@@ -21,4 +21,6 @@ stock_concept = ts.get_concept_classified()
 stock_basics.to_sql('stock_basics', engine, if_exists = 'replace')
 stock_concept.to_sql('stock_concept', engine, if_exists = 'replace')
 
-for
+for stock in stock_basics.index:
+	stock_price = ts.get_hist_data(stock)
+	stock_price.to_sql('stock_price', engine, if_exists = 'append')
