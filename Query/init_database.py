@@ -5,7 +5,8 @@ import sqlite3 as sql3
 import sqlalchemy as sqlalc
 import pandas as pd 
 
-engine = sqlalc.create_engine('sqlite:///F:\\Documents\\GitHub\\StockQuerySystem\\Query\\DataBase\\stock.db')
+route = 'sqlite:///F:\\Documents\\GitHub\\StockQuerySystem\\Query\\DataBase\\stock.db'
+engine = sqlalc.create_engine(route)
 
 stock_basics = ts.get_stock_basics()
 stock_concept = ts.get_concept_classified()
