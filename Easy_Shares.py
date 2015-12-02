@@ -6,6 +6,7 @@ import sqlite3
 from contextlib import closing
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash
+from datetime import date as dt
 
 # configuration
 DATABASE = '/var/www/Stock/DataBase/Stock.db'
@@ -47,11 +48,12 @@ def show_shares():
 						FROM stock_basics, stock_concept, stock_price \
 						WHERE stock_basics.code = stock_concept.code and \
 							  stock_concept.code = stock_price.code and \
+							  date = str(dt.today()) and \
 							  holdingQuantity > 0 \
 						ORDER BY code DESC')
 	shares = [dict(code=row[0], name=row[1], c_name=row[2], holdingQuantity=row[3]\
 				   close=row[4], price_change=row[5]) for row in cur.fetchall()]
-	return render_template('show_shares.html', shares = shares, profit = Profit(shares))
+	return render_template('show_shares.html', shares = shares, profit = Profit(shares), date = str(dt.today()))
 
 #search_share
 @app.route('/search', methods=['GET', 'POST'])
@@ -67,18 +69,8 @@ def search_share():
 				   close=row[4], price_change=row[5]) for row in cur.fetchall()]
 	return render_template('search_shares.html', shares = shares)
 
-
-'''
-if not session.get('logged_in'):
-		abort(401)
-	g.db.execute('INSERT INTO ENTRIES (TITLE, PASSAGE) VALUES (?, ?)', [request.form['title'], request.form['passage']])
-	g.db.commit()
-	flash('New entry was successfully posted')
-	return redirect(url_for('show_entries'))
-'''
-
 #modify_share
-@app.route('/add', methods=['POST'])
+@app.route('/modify', methods=['POST'])
 def modify_share():
 	if not session.get('logged_in'):
 		abort(401)
@@ -125,4 +117,3 @@ def logout():
 
 if __name__ == '__main__':
 	app.run(host = '0.0.0.0')
-
