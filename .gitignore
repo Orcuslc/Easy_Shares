@@ -99,3 +99,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# unnecessary databases
+stock.db
