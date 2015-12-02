@@ -217,3 +217,7 @@ pip-log.txt
 
 # unnecessary databases
 stock.db
+*.filepart
+*.filepart
+*.filepart
+DataBase/stock.db.filepart
