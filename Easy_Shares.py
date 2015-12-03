@@ -88,17 +88,15 @@ def modify_share():
 		flash('Share was successfully modified')
 	return redirect(url_for('show_shares'))
 
-'''
 #del_entry
 @app.route('/del', methods=['DELETE'])
 def del_share():
 	if not session.get('logged_in'):
 		abort(401)
-	g.db.execute('DELETE FROM ENTRIES WHERE ID = {0}'.format(request.form['code'][0]))
+	g.db.execute('DELETE FROM ENTRIES WHERE ID = ?', [request.form['code']])
 	g.db.commit()
 	flash('Selected entry was successfully delete')
 	return redirect(url_for('show_shares'))
-'''
 
 #login and logout
 @app.route('/login',methods=['GET', 'POST'])
