@@ -80,7 +80,7 @@ def search_shares():
 						WHERE X.code = Y.code and\
 							  Y.code = V.code\
 						ORDER BY X.code ASC', [request.form['code'] for i in range(4)])
-	shares = [dict(code=row[0], name=row[1], cname=row[2], holdingQuantity=row[3],\
+	shares = [dict(code=row[0], name=row[1], c_name=row[2], holdingQuantity=row[3],\
 				   close=row[4], price_change=row[5], date=row[6]) for row in cur.fetchall()]
 	return render_template('search_shares.html', shares = shares)
 
