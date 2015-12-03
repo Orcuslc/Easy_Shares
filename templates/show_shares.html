@@ -11,8 +11,8 @@
   </form>
   <ul class=shares>
   {% for share in shares %}
-     <p>code: &nbsp; {{share.code}}</p>
-     <p>name: &nbsp; {{ share.name }} &nbsp; &nbsp; &nbsp; c_name: &nbsp; {{ share.c_name }}</p>
+     <p>code: &nbsp; {{share.code}}&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;date: {{ share.date }}</p>
+     <p>name: &nbsp; {{ share.name }}</p>
      <p>closeprice: &nbsp; {{ share.close }} &nbsp; &nbsp; &nbsp; price_change: &nbsp; {{ share.price_change }}</p>
      {% if session.logged_in %}
      <form action="{{ url_for('modify_share', code=share.code) }}" method=post class=add-share>
