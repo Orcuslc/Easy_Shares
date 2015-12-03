@@ -76,14 +76,14 @@ def search_shares():
 	return render_template('search_shares.html', shares = shares)
 
 #modify_share
-@app.route('/modify', methods=['POST'])
-def modify_share():
+@app.route('/modify/<int:code>', methods=['POST'])
+def modify_share(code):
 	if not session.get('logged_in'):
 		abort(401)
-	if request.form['code'] and request.form['quantity']:
+	if code and request.form['quantity']:
 		g.db.execute('UPDATE stock_basics\
 					  SET holdingQuantity = ?\
-					  WHERE code = ?', [request.form['quantity'], request.form['code']])
+					  WHERE code = ?', [request.form['quantity'], code])
 		g.db.commit()
 		flash('Share was successfully modified')
 	return redirect(url_for('show_shares'))
