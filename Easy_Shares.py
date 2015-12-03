@@ -76,7 +76,7 @@ def search_shares():
 	return render_template('search_shares.html', shares = shares)
 
 #modify_share
-@app.route('/modify/<int:code>', methods=['POST'])
+@app.route('/modify/<code>', methods=['POST'])
 def modify_share(code):
 	if not session.get('logged_in'):
 		abort(401)
