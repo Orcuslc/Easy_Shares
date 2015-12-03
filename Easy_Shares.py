@@ -9,8 +9,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
 import datetime
 
 # configuration
-# DATABASE = '/tmp/stock.db'
-DATABASE = 'F:\\Documents\\GitHub\\Stock\\DataBase\\stock.db'
+DATABASE = '/var/www/Stock/Stock/DataBase/stock.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
@@ -46,16 +45,18 @@ def teardown_request(exception):
 @app.route('/')
 def show_shares():
 	today = str(datetime.date.today())
-	cur = g.db.execute('SELECT DISTINCT stock_basics.code, stock_basics.name,\
+	cur = g.db.execute('SELECT DISTINCT X.code, name,\
 							   date, holdingQuantity, close, price_change\
-						FROM stock_basics, stock_concept, stock_price AS X \
-						WHERE stock_basics.code = stock_concept.code and \
-							  stock_concept.code = X.code and \
-							  holdingQuantity > 0 and\
-							  date  in  (SELECT MAX(date)\
-							  			 FROM stock_price AS Y\
-							  			 WHERE Y.code = X.code)\
-						ORDER BY stock_basics.code ASC')
+						FROM (SELECT code, name, holdingQuantity\
+						 	  FROM stock_basics\
+						 	  WHERE holdingQuantity > 0) AS X,\
+							 (SELECT code, date, close, price_change\
+							  FROM  (SELECT code, date, close, price_change FROM stock_price) AS Y\
+							  WHERE date in (SELECT MAX(date) \
+							  				 FROM (SELECT code, date FROM stock_price) AS Z\
+							  				 WHERE Z.code = Y.code)) AS W\
+						WHERE X.code = W.code \
+						ORDER BY X.code ASC')
 	shares = [dict(code=row[0], name=row[1], date=row[2], holdingQuantity=row[3],\
 				   close=row[4], price_change=row[5]) for row in cur.fetchall()]
 	return render_template('show_shares.html', shares = shares, profit = Profit(shares), date = today)
@@ -65,18 +66,21 @@ def show_shares():
 def search_shares():
 	if not request.form['code']:
 		return redirect(url_for('show_shares'))
-	cur = g.db.execute('SELECT DISTINCT stock_basics.code, stock_basics.name,\
-							   date, holdingQuantity, close, price_change\
-						FROM stock_basics, stock_concept, stock_price AS X \
-						WHERE stock_basics.code = stock_concept.code and \
-							  stock_concept.code = X.code and \
-							  stock_basics.code = ? and\
-							  date  in  (SELECT MAX(date)\
-							  			 FROM stock_price AS Y\
-							  			 WHERE Y.code = X.code)\
-						ORDER BY stock_basics.code ASC', [request.form['code']])
-	shares = [dict(code=row[0], name=row[1], date=row[2], holdingQuantity=row[3],\
-				   close=row[4], price_change=row[5]) for row in cur.fetchall()]
+	cur = g.db.execute('SELECT DISTINCT X.code, name,\
+							    		c_name,\
+							    		holdingQuantity, close, price_change, date\
+						FROM (SELECT code, holdingQuantity, name FROM stock_basics WHERE code = ?) AS X, \
+							 (SELECT code, c_name FROM stock_concept WHERE code = ?) AS Y,\
+							 (SELECT code, date, close, price_change\
+							  FROM  (SELECT code, date, close, price_change FROM stock_price WHERE code = ?) AS Z\
+							  WHERE date in (SELECT MAX(date) \
+							  				 FROM (SELECT code, date FROM stock_price) AS W\
+							  				 WHERE W.code = ?)) AS V\
+						WHERE X.code = Y.code and\
+							  Y.code = V.code\
+						ORDER BY X.code ASC', [request.form['code'] for i in range(4)])
+	shares = [dict(code=row[0], name=row[1], c_name=row[2], holdingQuantity=row[3],\
+				   close=row[4], price_change=row[5], date=row[6]) for row in cur.fetchall()]
 	return render_template('search_shares.html', shares = shares)
 
 #modify_share
