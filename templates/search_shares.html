@@ -2,34 +2,26 @@
 {% block body %}
   {% if session.logged_in %}
     <form action="{{ url_for('search_shares') }}" method=post class=add-share>
-      <dl>
-        <h3>Search share by code</h3>
-        <dt>Code:
-        <dd><input type=text size=10 name=code>
-        <dd><input type=submit value=Search>
-      </dl>
+        <h3>Search Share by Code:&nbsp;<input type=text size=10 name=code>
+                                       <input type=submit value=Search></h3>
     </form>
   {% endif %}
-  <ul class=big>
-    <p>Search results are showed here:</p>
-  </ul>
+  <form class=add-share>
+    <h3>Search results are showed here:</h3>
+  </form>
   <ul class=shares>
   {% for share in shares %}
-     <li>code: &nbsp {{share.code}}
-     <li>name: &nbsp {{ share.name }} &nbsp &nbsp &nbsp c_name: &nbsp {{ share.c_name }}
-     <li>holdingQuantity: &nbsp {{ share.holdingQuantity }}
-     <li>closeprice: &nbsp {{ share.close }} &nbsp &nbsp &nbsp price_change: &nbsp {{ share.price_change }}   
+     <p>code: &nbsp; {{share.code}}</p>
+     <p>name: &nbsp; {{ share.name }} &nbsp; &nbsp; &nbsp; c_name: &nbsp; {{ share.c_name }}</p>
+     <p>holdingQuantity: &nbsp; {{ share.holdingQuantity }}</p>
+     <p>closeprice: &nbsp; {{ share.close }} &nbsp; &nbsp; &nbsp; price_change: &nbsp; {{ share.price_change }}</p>   
   {% else %}
    	 <li><em>Unbelievable. No shares found here</em>
   {% endfor %}
   {% if session.logged_in %}
-       <form action="{{ url_for('modify_share') }}" method=post class=add-share>
-         <dl>
-           <dt>Modify Share Quatity:
-           <dd>code: <input type=text size=7 name=code> 
-           <dd>quantity: <input type=text size=7 name=quantity>
-           <dd><input type=submit value=Submit>
-         </dl>
+       <form action="{{ url_for('modify_share', code=shares[0].code) }}" method=post class=add-share>
+           <h3>Modify Share Quantity:&#12288;<input type=text size=7 name=quantity>
+                                             <input type=submit value=Submit></h3>
        </form>
     {% endif %}
   </ul>

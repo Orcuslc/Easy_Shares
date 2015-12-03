@@ -2,37 +2,30 @@
 {% block body %}
   {% if session.logged_in %}
     <form action="{{ url_for('search_shares') }}" method=post class=add-share>
-      <dl>
-        <h3>Search share by code</h3>
-        <dt>Code:
-        <dd><input type=text size=10 name=code>
-        <dd><input type=submit value=Search>
-      </dl>
+        <h3>Search Share by Code:&nbsp;<input type=text size=10 name=code>
+                                       <input type=submit value=Search></h3>
     </form>
   {% endif %}
-  <ul class=big>
-    <p>Your shares are showed here:</p>
-  </ul>
+  <form class=add-share>
+    <h3>Your shares are showed here:</h3>
+  </form>
   <ul class=shares>
   {% for share in shares %}
-     <li>code: &nbsp {{share.code}}
-     <li>name: &nbsp {{ share.name }} &nbsp &nbsp &nbsp c_name: &nbsp {{ share.c_name }}
-     <li>holdingQuantity: &nbsp {{ share.holdingQuantity }}
-     <li>closeprice: &nbsp {{ share.close }} &nbsp &nbsp &nbsp price_change: &nbsp {{ share.price_change }}   
+     <p>code: &nbsp; {{share.code}}</p>
+     <p>name: &nbsp; {{ share.name }} &nbsp; &nbsp; &nbsp; c_name: &nbsp; {{ share.c_name }}</p>
+     <p>closeprice: &nbsp; {{ share.close }} &nbsp; &nbsp; &nbsp; price_change: &nbsp; {{ share.price_change }}</p>
+     {% if session.logged_in %}
+     <form action="{{ url_for('modify_share', code=share.code) }}" method=post class=add-share>
+     <p> holdingQuantity: &nbsp; {{ share.holdingQuantity }} 
+          &#12288;&#12288;&#12288;&#12288;&#12288;
+          Modify Quantity:&nbsp;<input type=text size=7 name=quantity>
+                          <input type=submit value=Submit> </p>
+     </form>
+     {% endif %}   
   {% else %}
    	 <li><em>Unbelievable. No shares found here</em>
   {% endfor %}
-  <p>{{ profit }}</p>
-  {% if session.logged_in %}
-       <form action="{{ url_for('modify_share') }}" method=post class=add-share>
-         <dl>
-           <dt>Modify Share Quatity:
-           <dd>code: <input type=text size=7 name=code> 
-           <dd>quantity: <input type=text size=7 name=quantity>
-           <dd><input type=submit value=Submit>
-         </dl>
-       </form>
-    {% endif %}
+  <h3>{{ profit }}</h3>
   </ul>
 {% endblock %}
 
