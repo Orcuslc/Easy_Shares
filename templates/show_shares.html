@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block body %}
+{% block content %}
   {% if session.logged_in %}
     <form action="{{ url_for('search_shares') }}" method=post class=add-share>
         <h3>Search Share by Code:&nbsp;<input type=text size=10 name=code>
@@ -21,6 +21,7 @@
           Modify Quantity:&nbsp;<input type=text size=7 name=quantity>
                           <input type=submit value=Submit> </p>
      </form>
+     <hr width=80% size=3 color="2b65ec" align="left" style="filter:progid:DXImageTransform.Microsoft.Glow(color=#00ffff,strength=10)" />
      {% endif %}   
   {% else %}
    	 <li><em>Unbelievable. No shares found here</em>
