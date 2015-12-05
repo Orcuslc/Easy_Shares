@@ -103,7 +103,7 @@ def show_shares():
 						ORDER BY X.code ASC')
 	shares = [dict(code=row[0], name=row[1], date=row[2], holdingQuantity=row[3],\
 				   close=row[4], price_change=row[5]) for row in cur.fetchall()]
-	return render_template('show_shares.html', shares = shares, profit = Profit(shares), date = today)
+	return render_template('show_shares.html', title = 'Show Shares', shares = shares, profit = Profit(shares), date = today, year = datetime.now().year)
 
 #search_share
 @app.route('/search_shares', methods=['GET', 'POST'])
