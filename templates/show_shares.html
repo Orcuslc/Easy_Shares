@@ -6,8 +6,10 @@
                                        <input type=submit value=Search></h3>
     </form>
   {% endif %}
+  <p></p>
   <form class=add-share>
     <h3>Your shares are showed here:</h3>
+    <p></p>
   </form>
   <ul class=shares>
   {% for share in shares %}
@@ -24,10 +26,17 @@
      <hr width=80% size=3 color="2b65ec" align="left" style="filter:progid:DXImageTransform.Microsoft.Glow(color=#00ffff,strength=10)" />
      {% endif %}   
   {% else %}
-   	 <li><em>Unbelievable. No shares found here</em>
+      <p></p>
+      <p></p>
+      <p></p>
+      <body>
+      <center>
+   	  <h2>Unbelievable. No shares found here</h2>
+      </center>
+      </body>
   {% endfor %}
-  <h3>{{ profit }}</h3>
   </ul>
+  <h3>{{ profit }}</h3>
 {% endblock %}
 
 

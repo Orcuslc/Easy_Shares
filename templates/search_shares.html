@@ -1,19 +1,39 @@
 {% extends "layout.html" %}
 {% block content %}
   <form class=add-share>
-    <h3>Search results are showed here:</h3>
+    <h2>Search results are showed here:</h2>
+    <p></p>
+    <p></p>
   </form>
-  <ul class=shares> </ul>
-  {% for share in shares %}
-     <p>code: &nbsp; {{share.code}}&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;date: {{ share.date }}</p>
-     <p>name: &nbsp; {{ share.name }}</p>
-     <p>c_name: &nbsp; {{ share.c_name }}</p>
-     <p>holdingQuantity: &nbsp; {{ share.holdingQuantity }}</p>
-     <p>closeprice: &nbsp; {{ share.close }} &nbsp; &nbsp; &nbsp; price_change: &nbsp; {{ share.price_change }}</p> 
+  <ul class=shares>
+  <body>
+  {% if shares %}
+     <h3>CODE: &nbsp; {{ shares[0].code }}</h3>
+     <p>DATE: &nbsp; {{ shares[0].date }}</p>
+     <p>NAME: &nbsp; {{ shares[0].name }}</p>
+     <p>HOLDING_QUANTITY: &nbsp; {{ shares[0].holdingQuantity }}</p>
+     <p>CLOSE_PRICE: &nbsp; {{ shares[0].close }}</p> 
+     <p>PRICE_CHANGE: &nbsp; {{ shares[0].price_change }}</p>
+     <p></p>
+     <h3>C_NAME:</h3>
+     <p></p>
+     <p> &#12288;&#12288; 
+     {% for i in range(len) %}
+        {{ shares[i].c_name }} &#12288;
+        {% if i%3 == 2 %} <br> &#12288;&#12288;
+        {% endif %}
+     {% endfor %} 
+     </p>
      <hr width=80% size=3 color="2b65ec" align="left" style="filter:progid:DXImageTransform.Microsoft.Glow(color=#00ffff,strength=10)" />
   {% else %}
-   	 <li><em>Unbelievable. No shares found here</em>
-  {% endfor %}
+     <body>
+     <p></p>
+     <center>
+   	 <h2>Unbelievable. No shares found here</h2>
+     </center>
+     </body>
+  {% endif %}
+  </body>
   {% if session.logged_in and shares %}
        <form action="{{ url_for('modify_share', code=shares[0].code) }}" method=post class=add-share>
            <h3>Modify Share Quantity:&#12288;<input type=text size=7 name=quantity>

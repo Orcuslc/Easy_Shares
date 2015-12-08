@@ -105,11 +105,15 @@ def show_shares():
 				   close=row[4], price_change=row[5]) for row in cur.fetchall()]
 	return render_template('show_shares.html', title = 'Show Shares', shares = shares, profit = Profit(shares), date = today, year = datetime.now().year)
 
-#search_share
+#redirect to share information
 @app.route('/search_shares', methods=['GET', 'POST'])
 def search_shares():
-	if not request.form['code']:
-		return redirect(url_for('show_shares'))
+	if not request.form['code']: return redirect(url_for('show_shares'))
+	return redirect(url_for('share_inform', code=request.form['code']))
+
+#search_share
+@app.route('/<code>', methods=['GET', 'POST'])
+def share_inform(code):
 	cur = g.db.execute('SELECT DISTINCT X.code, name,\
 							    		c_name,\
 							    		holdingQuantity, close, price_change, date\
@@ -122,13 +126,15 @@ def search_shares():
 							  				 WHERE W.code = ?)) AS V\
 						WHERE X.code = Y.code and\
 							  Y.code = V.code\
-						ORDER BY X.code ASC', [request.form['code'] for i in range(4)])
+						ORDER BY X.code ASC', [code for i in range(4)])
 	shares = [dict(code=row[0], name=row[1], c_name=row[2], holdingQuantity=row[3],\
 				   close=row[4], price_change=row[5], date=row[6]) for row in cur.fetchall()]
+	length = len(shares)
 	return render_template(
         'search_shares.html', 
         title = 'Search',
         shares = shares,
+        len = length,
         year = datetime.now().year)
 
 #modify_share
