@@ -5,7 +5,7 @@
 <div class="jumbotron">
     <h1>Easy Shares</h1>
     <h3>{{ today }}</h3>
-    <p class="lead">Easy Shares is a application to query and follow stocks, with profit rate given everyday.</p>
+    <p class="lead">Search for stock information, establish your own portfolio and get your profit rate here.</p>
     <p><a href="http://github.com/orcuslc/stock" class="btn btn-primary btn-large">Learn about of our source code &raquo;</a></p>
 </div>
 
@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <h2>Getting Started</h2>
         <p>
-            Login to query, choose your stock and get your profit rate yesterday.
+            Log in to search for stock information, select your protfolio and get your profit rate yesterday.
         </p>
         <p>
         {% if not session.logged_in %}
@@ -25,11 +25,11 @@
     </div>
     <div class="col-md-4">
         <h2>Search Shares</h2>
-        <p>Search shares that you are interested in here.</p>
+        <p>Search for stocks that you are interested in.</p>
         {% if session.logged_in %}
         <form action="{{ url_for('search_shares') }}" method=post class=add-share>
             <h3>
-                Search Share by Code:&nbsp;<input type=text size=10 name=code>
+                Search Stock by Code:&nbsp;<input type=text size=10 name=code>
                 <input type=submit value=Search &raquo>
             </h3>
         </form>
@@ -38,8 +38,8 @@
         {% endif %}
     </div>
     <div class="col-md-4">
-        <h2>Show Your Profits</h2>
-        <p>Check your Profits yesterday with the shares you selected.</p>
+        <h2>Check Your Profits</h2>
+        <p>Check your profit rate yesterday with your protfolio.</p>
         {% if session.logged_in %}
         <p><a class="btn btn-default" href="{{url_for('show_shares')}}">Check your Profits &raquo;</a></p>
         {% else %}

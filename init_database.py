@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#!/usr/local/bin/python3
 #coding = 'UTF-8'
 #get_data
 
@@ -6,7 +6,6 @@ import tushare as ts
 import sqlalchemy as sqlalc
 import pandas as pd 
 import datetime as dt
-
 
 route = 'sqlite:////var/www/Stock/Stock/DataBase/stock.db'
 engine = sqlalc.create_engine(route)

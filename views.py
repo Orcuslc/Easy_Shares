@@ -25,7 +25,7 @@ def contact():
     """Renders the contact page."""
     return render_template(
         'contact.html',
-        title='Contact',
+        title='Contact Us',
         year=datetime.now().year,
         message='Please contact us if you have any questions.'
     )
@@ -35,9 +35,9 @@ def about():
     """Renders the about page."""
     return render_template(
         'about.html',
-        title='About',
+        title='About our website',
         year=datetime.now().year,
-        message='Powered by Flask, Pandas, Tushare, Sqlalchemy'
+        message='We are going to use this website as a platform of our quantitative research on stocks listed in Chinese markets.'
     )
 
 @app.route('/login', methods=['GET', 'POST'])
