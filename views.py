@@ -36,18 +36,20 @@ def contact():
     """Renders the contact page."""
     return render_template(
         'contact.html',
-        title='Contact Us',
+        title='Contact Me if there are further questions' ,
         year=datetime.now().year,
-        message='Please contact us if you have any questions.'
     )
 
 @app.route('/Projects')
 def Projects():
-    """Renders the about page."""
+    """Renders the projects page."""
+    cur = g.db.execute('select title, url, text from projects')
+    projects = [dict(title=row[0], url=row[1], text=row[2]) for row in cur.fetchall()]
     return render_template(
         'projects.html',
         title='Other Projects',
         year=datetime.now().year,
+        projects = projects
     )
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -170,6 +172,14 @@ def del_share():
 	flash('Selected entry was successfully delete')
 	return redirect(url_for('show_shares'))           
 
+@app.route('/delete_project', methods=['DELETE'])
+def delete_project():
+	if not session.get('logged_in'):
+		abort(401)
+	g.db.execute('DELETE FROM projects WHERE title = ?', request.form['title'])
+	g.db.commit()
+	flash('The project was successfully deleted.')
+	return redirect(url_for('Projects'))
 
 @app.route('/add', methods=['POST'])
 def add_project():

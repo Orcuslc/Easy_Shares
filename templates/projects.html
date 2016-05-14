@@ -2,19 +2,29 @@
 
 {% block content %}
 
-<h2>{{ title }}</h2>
+
+<h1>{{ title }}</h1>
 
 <ul class=projects>
 {% for project in projects %}
-	<li><h2>{{ project.title }}</h2>{{ project.url }}{{ project.text|safe }}
+	<li><h2>{{ project.title }}</h2>
+		<a href="{{ project.url }}">The source code</a><br></br>
+		<p>Introduction: {{ project.text|safe }}</p>
+<!-- 	{% if session.logged_in %}
+	<form action="{{ url_for('delete_project', title=project.title) }}" method=post>
+	<input type=title name={{ project.title }}>
+	<input type=submit value=Delete>
+	</form>
+	{% endif %} -->
 {% else %}
 	<li><em>Unbelievable, There is no projects here.</em>
 {% endfor %}
 </ul>
 
-<p>Add a new project here.</p>
+
 
 {% if session.logged_in %}
+	<h2>Add a new project here.</h2>
 	<form action="{{ url_for('add_project') }}" method=post class=add-project>
 		<dl>
 			<dt>Title:
@@ -26,6 +36,11 @@
 			<dd><input type=submit value=Add>
 		</dl>
 	</form>
+{% else %}
+        <h2>Please login first to add a new project.</h2>
+        <p>
+        <a class="btn btn-default" href="{{url_for('login')}}">Login &raquo;</a>
+        </p>
 {% endif %}
 
 {% endblock %}

@@ -13,13 +13,13 @@ app = Flask(__name__)
 
 # configuration
 # DATABASE = '/Users/bohaotang/stock.db'
-# DATABASE = '/var/www/Stock/Stock/DataBase/stock.db'
-DATABASE = 'E:\\Chuan\\Documents\\GitHub\\Stock\\DataBase\\stock.db'
+DATABASE = '/var/www/Stock/Stock/DataBase/stock.db'
+# DATABASE = 'E:\\Chuan\\Documents\\GitHub\\Stock\\DataBase\\stock.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
-DOWNLOAD_FOLDER = 'download'
+DOWNLOAD_FOLDER = '/var/www/Stock/Stock/download'
 
 app.config.from_object(__name__)
 
