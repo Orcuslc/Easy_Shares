@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>{{ title }}</h2>
+
+<ul class=projects>
+{% for project in projects %}
+	<li><h2>{{ project.title }}</h2>{{ project.url }}{{ project.text|safe }}
+{% else %}
+	<li><em>Unbelievable, There is no projects here.</em>
+{% endfor %}
+</ul>
+
+<p>Add a new project here.</p>
+
+{% if session.logged_in %}
+	<form action="{{ url_for('add_project') }}" method=post class=add-project>
+		<dl>
+			<dt>Title:
+			<dd><input type=text size=30 name=title>
+			<dt>URL:
+			<dd><input type=text size=30 name=url>
+			<dt>Text:
+			<dd><textarea name=text rows=5 cols=40></textarea>
+			<dd><input type=submit value=Add>
+		</dl>
+	</form>
+{% endif %}
+
+{% endblock %}

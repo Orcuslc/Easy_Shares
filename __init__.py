@@ -12,13 +12,14 @@ from contextlib import closing
 app = Flask(__name__)
 
 # configuration
-DATABASE = '/Users/bohaotang/stock.db'
+# DATABASE = '/Users/bohaotang/stock.db'
 # DATABASE = '/var/www/Stock/Stock/DataBase/stock.db'
-#DATABASE = 'F:\\Documents\\GitHub\\Stock\\DataBase\\stock.db'
+DATABASE = 'E:\\Chuan\\Documents\\GitHub\\Stock\\DataBase\\stock.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
+DOWNLOAD_FOLDER = 'download'
 
 app.config.from_object(__name__)
 

@@ -7,6 +7,7 @@ from __init__ import app
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash
+import flask
 from ShareCompute import Profit
 
 @app.route('/')
@@ -14,11 +15,21 @@ from ShareCompute import Profit
 def home():
     """Renders the home page."""
     return render_template(
-        'index.html',
+        'personal_info.html',
         today = datetime.now().date(),
         title='Home Page',
         year=datetime.now().year,
     )
+
+@app.route('/download/<path:filename>')
+def download_file(filename):
+	return flask.send_from_directory(app.config['DOWNLOAD_FOLDER'], filename, as_attachment=True)
+
+@app.route('/easyshares')
+def easyshares():
+	return render_template('index.html', today = datetime.now().date(),
+										title = 'Easy Shares',
+										year = datetime.now().year)
 
 @app.route('/contact')
 def contact():
@@ -30,14 +41,13 @@ def contact():
         message='Please contact us if you have any questions.'
     )
 
-@app.route('/about')
-def about():
+@app.route('/Projects')
+def Projects():
     """Renders the about page."""
     return render_template(
-        'about.html',
-        title='About our website',
+        'projects.html',
+        title='Other Projects',
         year=datetime.now().year,
-        message='We are going to use this website as a platform of our quantitative research on stocks listed in Chinese markets.'
     )
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -51,7 +61,7 @@ def login():
         else:
             session['logged_in'] = True
             flash('You are logged in')
-            return redirect(url_for('home'))
+            return redirect(url_for('easyshares'))
     return render_template(
         'login.html',
         title = 'Login',
@@ -159,4 +169,15 @@ def del_share():
 	g.db.commit()
 	flash('Selected entry was successfully delete')
 	return redirect(url_for('show_shares'))           
+
+
+@app.route('/add', methods=['POST'])
+def add_project():
+	if not session.get('logged_in'):
+		abort(401)
+	g.db.execute('insert into projects (title, url, text) values (?, ?, ?)',
+				[request.form['title'], request.form['url'], request.form['text']])
+	g.db.commit()
+	flash('New project was successfully added.')
+	return redirect(url_for('Projects'))
 

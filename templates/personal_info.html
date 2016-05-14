@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <p>
+    <img src="/download/MyPhoto.jpg" width='130' height="189" align="right"/>
+    <h1>Chuan Lu</h1>
+    Junior student in Fudan University<p></p>
+    Major in Computational Mathematics and Data Science
+    </p>
+    <!-- <h3>{{ today }}</h3> -->
+    <p><a href="{{url_for('download_file', filename='ChuanLu_Resume.pdf')}}" class="btn btn-primary btn-large">Download my resume here &raquo;</a></p>
+</div>
+
+<!-- <div class="row">
+    <div class="col-md-4">
+        <h2>Getting Started</h2>
+        <p>
+            Log in to search for stock information, select your protfolio and get your profit rate yesterday.
+        </p>
+        <p>
+        {% if not session.logged_in %}
+        <a class="btn btn-default" href="{{url_for('login')}}">Login &raquo;</a>
+        {% else %}
+        <a class="btn btn-default" href="{{url_for('logout')}}">Logout</a>
+        {% endif %}
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Search Shares</h2>
+        <p>Search for stocks that you are interested in.</p>
+        {% if session.logged_in %}
+        <form action="{{ url_for('search_shares') }}" method=post class=add-share>
+            <h3>
+                Search Stock by Code:&nbsp;<input type=text size=10 name=code>
+                <input type=submit value=Search &raquo>
+            </h3>
+        </form>
+        {% else %}
+        <a class="btn btn-default" href="{{url_for('login')}}">Please Log in first &raquo;</a>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <h2>Check Your Profits</h2>
+        <p>Check your profit rate yesterday with your protfolio.</p>
+        {% if session.logged_in %}
+        <p><a class="btn btn-default" href="{{url_for('show_shares')}}">Check your Profits &raquo;</a></p>
+        {% else %}
+        <a class="btn btn-default" href="{{url_for('login')}}">Please Log in first &raquo;</a>
+        {% endif %}
+    </div>
+</div>
+ -->
+{% endblock %}
